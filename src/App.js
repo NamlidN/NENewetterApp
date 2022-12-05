@@ -1,32 +1,47 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import BTNs from './components/Buttons';
-import CurrentWeather from './components/CurrentWeather';
 
+
+// function CurrentWeather(props) {
+//   if(props.weatherData.weather=== undefined) {
+// return
+//   }
+//   return (
+//   
+//   );
+// };
+
+// export default CurrentWeather;
 function App() {
-  const [curWeather, setCurWeather] = useState([]);
-  const [city, setCity] = useState("Berlin");
-
-  function getCity(selectedCity) {
-    setCity(selectedCity);
-  }
-
+  const [A, setA] = useState("München");
+const [B, setB] = useState()
   useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=de&appid=c41b8a39a3c402e02819bd223ee1f116`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${A}&lang=de&appid=3602038086664bccc05a7c6b781332f8`)
       .then(response => response.json())
       .then((data) => {
-        setCurWeather(data);
-        console.log(data);
-
+setB(data);
       });
-
-  }, [city]);
-
+  });
+  console.log(B);
+  if(B === undefined){
+    return
+  }
   return (
     <div className='mainDiv'>
+      <button onClick={() => setA("Berlin")}>Berlin</button>
+      <button onClick={() => setA("München")}>München</button>
+      <button onClick={() => setA("Hamburg")} >Hamburg</button>
+      <section>
+           <article className="A">
+               <h1>{A}</h1>
+               <img src={`http://openweathermap.org/img/wn/${B.weather[0].icon}@2x.png`}alt="asdf"></img>
+           </article>
+           <article className="B">
+               <p>Current :{(B.main.temp - 274.15).toFixed(2) + "°C"}</p>
+               <p>Wind Speed : {B.wind.speed + " mi/hr"}</p>
+           </article>
+     </section>
 
-      <BTNs getCity={getCity} />
-      <CurrentWeather weatherData={curWeather} city={city} />
     </div>
   );
 }
